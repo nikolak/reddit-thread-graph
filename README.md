@@ -9,7 +9,6 @@ Example
 Example graph (requires browser that supports svg format):
 
 ![Example Graph](https://rawgit.com/Nikola-K/reddit-thread-graph/master/example_graph.svg)
-<img src="https://rawgit.com/Nikola-K/reddit-thread-graph/master/example_graph.svg">
 
 Installation/Setup
 ==================
