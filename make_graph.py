@@ -31,18 +31,28 @@ if not os.path.exists(filename):
 else:
     data = load()
 
-line_chart = pygal.Line()
-line_chart.show_dots = False
-line_chart.title = 'Thread: "{}"'.format(data['title'])
+line_chart = pygal.Line(x_label_rotation=20,
+                        show_only_major_dots=True,
+                        show_minor_x_labels=False,
+                        title='Thread: "{}"'.format(data['title'])
+)
 try:
     del data['title']  # remove title key/value pair
 except:
     pass
-line_chart.x_title = "Time (UTC)"
-line_chart.x_labels = sorted(data)
+
+sorted_keys = sorted(data)
+step = len(sorted_keys) / 10
+
+line_chart.x_title = "Date/Time (UTC)"
+line_chart.x_labels = sorted_keys
+line_chart.x_labels_major = [sorted_keys[i] for i in
+                             range(0, len(sorted_keys), step)] + sorted_keys[-1:]
+
 line_chart.y_label = "Value"
-line_chart.add('Upvotes', [data[i]['ups'] for i in sorted(data)])
-line_chart.add('Downvotes', [data[i]['downs'] for i in sorted(data)])
-line_chart.add('Score', [data[i]['score'] for i in sorted(data)])
-line_chart.add('Comments', [data[i]['comments'] for i in sorted(data)])
+
+line_chart.add('Upvotes', [data[i]['ups'] for i in sorted_keys])
+line_chart.add('Downvotes', [data[i]['downs'] for i in sorted_keys])
+line_chart.add('Score', [data[i]['score'] for i in sorted_keys])
+line_chart.add('Comments', [data[i]['comments'] for i in sorted_keys])
 line_chart.render_to_file("{}.svg".format(sys.argv[1]))
